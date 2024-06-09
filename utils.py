@@ -68,3 +68,27 @@ def rankResumes(text, prompt, jobDescription):
         return response
     except:
         return None
+    
+
+
+def checkParsing(text, prompt):
+    client = openai.AzureOpenAI(
+        azure_endpoint = os.environ["AZURE_ENDPOINT_GPT_4"], 
+        api_key=os.environ["API_KEY_GPT_4"],  
+        api_version=os.environ["API_VERSION_GPT_4"],
+    )
+
+    completion = client.chat.completions.create(
+        model='sfslackbot',
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": f"""Here is the Parsed Resume:{text}"""}
+        ],
+        temperature=0.1,
+        top_p=0.95,
+        frequency_penalty=0,
+        presence_penalty=0,
+        stop=None
+    )
+    response = completion.choices[0].message.content
+    return response
