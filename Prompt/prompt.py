@@ -104,3 +104,107 @@ Job Description:
 
 We are looking for a Backend Software Developer with experience in building web applications using modern technologies like React & NextJS as well as Python. The ideal candidate should have a strong background in computer science and software engineering principles. He should be proficient with Databases and Deployment. The candidate should be able to work independently and as part of a team to deliver high-quality software solutions.
 """
+
+
+ParsingCheckPrompt = """
+You will be provided with a sample output of how a parsing should look like and you need to check if the parsing is correct or not. If the parsing is correct, you can approve it. If the parsing is incorrect, you can reject it. Output with a YES OR NO ONLY.
+
+This is how the parsing should look like:
+{
+    "Name": "SHIV PRATAP SINGH",
+    "Contact": {
+        "Email": "shiv33852@gmail.com",
+        "Phone": "+91-6386273931",
+        "LinkedIn": "",
+        "Github": ""
+    },
+    "Education": {
+        "Degree": "Bachelor of Technology",
+        "University Name": "ABES Engineering College",
+        "Specialization": "Computer Science and Engineering",
+        "Start Date": "2019-08-01",
+        "End Date": "2023-07-31",
+        "GradeType": "CGPA",
+        "Grades": "8.0/10.0"
+    },
+    "Experience": [
+        {
+            "Your Designation": "Development Support Engineering Intern",
+            "Company Name": "Amazon India",
+            "Company Location": "Bangalore, Karnataka",
+            "Industry Type": "",
+            "Start Date": "2023-01-01",
+            "EndDate": "2023-06-30",
+            "Description": "- I designed and implemented a user-friendly and visually appealing dashboard that provided an overview of the code quality and health of all the team packages.\n- The dashboard included key metrics, such as code coverage, code duplication, and code smells, allowing for quick identification of areas that required improvement.\n- Tech Stack: Java, AWS: RDS, IAM, EC2, VPC, Amazon Route 53, AWS CloudFormation, Elastic Container Registry, Amazon Federate.\n\n- Removed unused dependencies and resolved major version conflicts to enhance project efficiency.\n- Implemented integration tests to identify and handle exceptions at the server end, ensuring robust error handling.\n- Invalid input is validated at server end. Developed validation filters to intercept incoming requests, enhancing data validation before processing. Utilized Java-based validation libraries and custom validation logic to validate input data comprehensively.\n- Tech Stack: Java, Testing.\n\n- Diligently identified critical bugs within the project's pipeline that were causing deployment failures.\n- Applied targeted code modifications to address these issues, ensuring that the project could progress smoothly through CI/CD pipeline.\n- Introduced automation scripts and processes to facilitate a seamless transition from manual deployments to full Continuous Delivery (CD).\n\n- Actively engaged in addressing Shepherd tickets, demonstrating a proactive approach to resolving critical issues that impacted the team's workflow and project progress.\n- Leveraged technical expertise in AWS services to develop and implement effective solutions for Shepherd ticket issues."
+        },
+        ...
+    ],
+    "Projects": [
+        {
+            "Project Name": "OBJECT DETECTION THROUGH LIVE WEB CAM | Deep Learning",
+            "Technologies": [
+                "Python",
+                "OpenCV",
+                "TensorFlow"
+            ],
+            "Project Url": "",
+            "Description": "A Deep learning application for detecting common objects. Developed a computer vision project utilizing deep learning techniques to detect and track objects in real-time using a web camera. Implemented the project using Python, OpenCV, and TensorFlow. To make user friendly, users can also capture the image and detect all the objects present in that frame."
+        },
+        {
+            "Project Name": "COVID-19 Data Analysis | Data Science",
+            "Technologies": [
+                "NumPy",
+                "Pandas",
+                "Matplotlib"
+            ],
+            "Project Url": "",
+            "Description": "Conducted an in-depth analysis of COVID-19 data, focusing on state-wise, gender-wise, and age group-wise comparisons of cases. Leveraged NumPy and Pandas libraries for data manipulation and performed data visualization using matplotlib. Extracted valuable insights and trends from the data, helping to understand the impact of the pandemic at different levels."
+        },
+        ...
+    ],
+    "Skills": [
+        "C",
+        "C++",
+        "Python",
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Data Science",
+        "Machine Learning",
+        "MySQL",
+        "Postman",
+        "Git",
+        "Linux",
+        "IntelliJ",
+        "VS Code",
+        "PyCharm",
+        "React JS",
+        "Redux",
+        "Tailwind CSS",
+        ...
+    ],
+    "Certifications": [
+        {
+            "Name": "Basics of Amazon CloudWatch",
+            "Credential URL": "",
+            "Issue date": ""
+        },
+        {
+            "Name": "Amazon CloudWatch Dashboard",
+            "Credential URL": "",
+            "Issue date": ""
+        },
+        {
+            "Name": "Open Source policy training",
+            "Credential URL": "",
+            "Issue date": ""
+        }
+        ...
+    ]
+}
+
+NOTE THAT THIS IS JUST A SAMPLE EXAMPLE AND THE OUTPUT MAY VARY. BUT THE KEYS FOR THIS JSON SHOULD REMAIN THE SAME. SO YOU NEED TO SPOT FOR KEY ERRORS MAJORlY. AMOUNT OF CERTIFICATES, WORK EXPERIENCE, PROJECTS, SKILLS, ETC MAY VARY FROM RESUME TO RESUME.
+
+If you get anything except for an output following this structure, you can reject it and output NO, else YES.
+
+"""
