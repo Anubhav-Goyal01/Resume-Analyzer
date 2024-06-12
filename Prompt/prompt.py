@@ -29,7 +29,7 @@ Grades
     "Specialization": "<specialization>",
     "Start Date": "<start_date>",
     "End Date": "<end_date>"
-    "GradeType": "<grade_type>",
+    "Grade Type": "<grade_type>",
     "Grades": "<grade>",
   },
   "Experience": [
@@ -39,7 +39,7 @@ Grades
       "Company Location": "<location>",
       "Industry Type": "<industry_type>",
       "Start Date": "<start_date>",
-      "EndDate": "<end_date>",
+      "End Date": "<end_date>",
       "Description": "<brief_description_of_responsibilities>"
     }
     // Include additional entries as needed
@@ -57,7 +57,7 @@ Grades
   "Certifications": [
     {
       "Name": "<certification_name>",
-      "Credential URL": "<certificate_link>",
+      "Credential URL": "<certificate_link>",
       "Issue date": "<date_of_completion>"
     }
     // Include additional entries as needed
@@ -102,7 +102,7 @@ Make Sure you dont assign the same score to multiple resumes. And do Relative ma
 jobDescriptionPrompt = """
 Job Description:
 
-We are looking for a Backend Software Developer with experience in building web applications using modern technologies like React & NextJS as well as Python. The ideal candidate should have a strong background in computer science and software engineering principles. He should be proficient with Databases and Deployment. The candidate should be able to work independently and as part of a team to deliver high-quality software solutions.
+We are looking for a seasoned Data Scientist to join our team. The ideal candidate will have experience working with large datasets and developing machine learning models. You will be responsible for analyzing data, identifying trends, and developing predictive models to drive business decisions. The candidate should have a strong background in statistics, mathematics, and programming. Experience with Python, Tensorflow or Pytorch, LLMS, GenerativeAI, MLOps is required. Knowledge of cloud platforms like AWS, Azure, or GCP is a plus. The candidate should have excellent communication skills and be able to present complex data in a clear and concise manner. A degree in Computer Science, Mathematics, or a related field is required. Certifications in Data Science or Machine Learning are a plus. Also the candidate should have experience in working with large datasets and developing machine learning models.
 """
 
 
