@@ -6,6 +6,7 @@ from langgraph.graph import StateGraph
 from Prompt.prompt import jobDescriptionPrompt, rankingPrompt, prompt
 from dotenv import load_dotenv
 from typing import TypedDict, List
+from utils import fix_json
 load_dotenv()
 
 # Define the state
@@ -56,6 +57,7 @@ def get_resume_details_node(state):
             stop=None
         )
         response = completion.choices[0].message.content
+        response = fix_json(response)
         try:
             starting_index = response.index("{")
             ending_index = response.rindex("}") + 1
@@ -63,7 +65,10 @@ def get_resume_details_node(state):
             response = json.loads(response)
             parsed_resumes += [{"details": json.dumps(response)}]
             success = True
-        except:
+        except Exception as e:
+
+            print("Retrying" , e)
+            print(f"Response: {response}")
             attempts += 1
             if attempts == max_retries:
                 parsed_resumes += [{"details": "Could not Parse This Resume"}]
@@ -71,44 +76,51 @@ def get_resume_details_node(state):
     return {"parsed_resumes": parsed_resumes}
 
 def rank_resumes_node(state):
-
-    parsed_resumes = state["parsed_resumes"]
-    resumes = []
-    scores = state["scores"]
-    for resume in parsed_resumes:
-        details = json.loads(resume["details"])
-        details["ID"] = len(resumes) + 1
-        resumes.append({"details": details})
-
-    client = openai.AzureOpenAI(
-        azure_endpoint = os.environ["AZURE_ENDPOINT_GPT_4"], 
-        api_key=os.environ["API_KEY_GPT_4"],  
-        api_version=os.environ["API_VERSION_GPT_4"],
-    )
-
-    completion = client.chat.completions.create(
-        model='sfslackbot',
-        messages=[
-            {"role": "system", "content": rankingPrompt},
-            {"role": "user", "content": f"""Here is the Resume Text:{resumes} and the job description: {jobDescriptionPrompt}"""}
-        ],
-        temperature=0.1,
-        top_p=0.95,
-        frequency_penalty=0,
-        presence_penalty=0,
-        stop=None
-    )
-    print("Ranking resumes")
-    response = completion.choices[0].message.content
-    print(response)
     try:
-        starting_index = response.index("{")
-        ending_index = response.rindex("}") + 1
-        response = response[starting_index:ending_index]
-        scores = json.loads(response)
-        print("Ranking successful")
-    except:
-        return {"scores": scores}
+        parsed_resumes = state["parsed_resumes"]
+        resumes = []
+        scores = state["scores"]
+        for i, resume in enumerate(parsed_resumes):
+            try:
+                details = json.loads(resume["details"])
+            except:
+                continue
+            details["ID"] = i + 1
+            resumes.append({"details": details})
+
+        client = openai.AzureOpenAI(
+            azure_endpoint = os.environ["AZURE_ENDPOINT_GPT_4"], 
+            api_key=os.environ["API_KEY_GPT_4"],  
+            api_version=os.environ["API_VERSION_GPT_4"],
+        )
+
+        completion = client.chat.completions.create(
+            model='sfslackbot',
+            messages=[
+                {"role": "system", "content": rankingPrompt},
+                {"role": "user", "content": f"""Here is the Resume Text:{resumes} and the job description: {jobDescriptionPrompt}"""}
+            ],
+            temperature=0.1,
+            top_p=0.95,
+            frequency_penalty=0,
+            presence_penalty=0,
+            stop=None
+        )
+        print("Ranking resumes")
+        response = completion.choices[0].message.content
+        print(response)
+        try:
+            starting_index = response.index("{")
+            ending_index = response.rindex("}") + 1
+            response = response[starting_index:ending_index]
+            scores = json.loads(response)
+            print("Ranking successful")
+        except:
+            return {"scores": "Could not Rank Resumes"}
+    except Exception as e:
+        print(f"Error: {e}")
+        return {"scores": "Could not Rank Resumes"}
+    
     return {"scores": scores}
 
 # Directory containing resumes
@@ -165,12 +177,13 @@ try:
     scores = state["scores"]
 
     for resume in parsed_resumes:
-        details = json.loads(resume["details"])
-        if details == "Could not Parse This Resume":
-            print("Parsing failed")
+        try:
+            details = json.loads(resume["details"])
+        except:
+            print("Parsing Failed for this Resume")
         else:
             print("Parsing successful")
-            print(json.dumps(details, indent=4))
+            # print(json.dumps(details, indent=4))
 
     print("Scores: ", scores)
 
