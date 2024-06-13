@@ -2,3 +2,5 @@ python-dotenv
 langchain
 langchain-community
 openai
+langgraph
+azure-ai-documentintelligence
