@@ -7,6 +7,7 @@ from Prompt.prompt import jobDescriptionPrompt, rankingPrompt, prompt
 from dotenv import load_dotenv
 from typing import TypedDict, List
 from utils import fix_json
+from langchain_community.document_loaders import AzureAIDocumentIntelligenceLoader
 load_dotenv()
 
 # Define the state
@@ -21,7 +22,13 @@ def parse_resume_node(state: State):
     id = state["id"]
     file_path = state["file_paths"][id]
     id += 1
-    loader = PyPDFLoader(file_path)
+    # loader = PyPDFLoader(file_path)
+    loader = AzureAIDocumentIntelligenceLoader(
+                api_endpoint="https://maservices-di.cognitiveservices.azure.com/",
+                api_key=f"{os.environ['DOC_INTELLIGENCE_API_KEY']}",
+                file_path=file_path,
+                api_model="prebuilt-layout"
+    )
     content = loader.load()
     content = content[0].page_content
     raw_resumes = state["raw_resumes"]
@@ -179,6 +186,7 @@ try:
     for resume in parsed_resumes:
         try:
             details = json.loads(resume["details"])
+            print("Parsed Resume: ", json.dumps(details, indent=4))
         except:
             print("Parsing Failed for this Resume")
         else:

@@ -6,8 +6,11 @@ from langgraph.graph import StateGraph
 from Prompt.prompt import prompt
 from dotenv import load_dotenv
 from typing import TypedDict, List
-from utils import fix_json
+from langchain_community.document_loaders import AzureAIDocumentIntelligenceLoader
 load_dotenv()
+
+
+
 
 # Define the state
 class State(TypedDict):
@@ -17,8 +20,15 @@ class State(TypedDict):
 
 def parse_resume_node(state: State):
     file_path = state["file_path"]
-    loader = PyPDFLoader(file_path)
+    # loader = PyPDFLoader(file_path)
+    loader = AzureAIDocumentIntelligenceLoader(
+                api_endpoint="https://maservices-di.cognitiveservices.azure.com/",
+                api_key=f"{os.environ['DOC_INTELLIGENCE_API_KEY']}",
+                file_path=file_path,
+                api_model="prebuilt-layout"
+            )
     content = loader.load()
+    print(content)
     content = content[0].page_content
     raw_resume = state["raw_resume"]
     raw_resume = {"content": content}
@@ -76,7 +86,7 @@ def get_resume_details_node(state):
 RESUME_DIR = os.path.join(os.path.dirname(__file__), 'Data', "Coffeee")
 # Fetch first resume
 resumes = os.listdir(RESUME_DIR)
-file_path = os.path.join(RESUME_DIR, resumes[5])
+file_path = os.path.join(RESUME_DIR, resumes[0])
 
 # Create the graph
 graph = StateGraph(State)
