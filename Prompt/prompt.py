@@ -28,7 +28,7 @@ Grades
     "University Name": "<university_name>",
     "Specialization": "<specialization>",
     "Start Date": "<start_date>",
-    "End Date": "<end_date>"
+    "End Date": "<end_date>",
     "Grade Type": "<grade_type>",
     "Grades": "<grade>",
   },
@@ -41,7 +41,7 @@ Grades
       "Start Date": "<start_date>",
       "End Date": "<end_date>",
       "Description": "<brief_description_of_responsibilities>"
-    }
+    },
     // Include additional entries as needed
   ],
   "Projects": [
@@ -50,7 +50,7 @@ Grades
       "Technologies": ["<technology_1>", "<technology_2>", "<technology_3>"],
       "Project Url": "<project_link>",
       "Description": "<brief_description_of_the_project>"
-    }
+    },
     // Include additional entries as needed
   ],
   "Skills": ["<skill_1>", "<skill_2>", "<skill_3>", ...],
@@ -59,7 +59,7 @@ Grades
       "Name": "<certification_name>",
       "Credential URL": "<certificate_link>",
       "Issue date": "<date_of_completion>"
-    }
+    },
     // Include additional entries as needed
   ]
 }
