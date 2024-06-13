@@ -4,6 +4,8 @@ Given the text of a resume, extract and format the information into a structured
 
 Review the resume carefully and spot for dates carefully. The dates should be in the format of YYYY-MM-DD. If the date is not available, you can leave it as an empty string in the output JSON. In case where the date is not in this format, you can convert it to the required format.
 
+Read and understand the description of Projects and Work Experience carefully and extract the relevant information. The description should be concise and should include the key responsibilities and technologies used.
+
 Here is the required format for the output:
 
 Degree
@@ -41,7 +43,7 @@ Grades
       "Start Date": "<start_date>",
       "End Date": "<end_date>",
       "Description": "<brief_description_of_responsibilities>"
-    },
+    }
     // Include additional entries as needed
   ],
   "Projects": [
@@ -50,7 +52,7 @@ Grades
       "Technologies": ["<technology_1>", "<technology_2>", "<technology_3>"],
       "Project Url": "<project_link>",
       "Description": "<brief_description_of_the_project>"
-    },
+    }
     // Include additional entries as needed
   ],
   "Skills": ["<skill_1>", "<skill_2>", "<skill_3>", ...],
@@ -59,7 +61,7 @@ Grades
       "Name": "<certification_name>",
       "Credential URL": "<certificate_link>",
       "Issue date": "<date_of_completion>"
-    },
+    }
     // Include additional entries as needed
   ]
 }
