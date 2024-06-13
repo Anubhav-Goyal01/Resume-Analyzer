@@ -60,7 +60,8 @@ Grades
     {
       "Name": "<certification_name>",
       "Credential URL": "<certificate_link>",
-      "Issue date": "<date_of_completion>"
+      "Issue date": "<date_of_completion>",
+      "Id": "<certificate_id>"
     }
     // Include additional entries as needed
   ]
