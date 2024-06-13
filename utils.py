@@ -1,6 +1,7 @@
 import os
 import json
 import openai
+import re
 from langchain_community.document_loaders import PyPDFLoader
 
 
@@ -92,3 +93,10 @@ def checkParsing(text, prompt):
     )
     response = completion.choices[0].message.content
     return response
+
+
+
+def fix_json(json_string):
+    # Fix common JSON errors, like missing commas
+    json_string = re.sub(r'(?<=\w)\s+(?=[\{\["])', ', ', json_string)  # Add missing commas before { and [
+    return json_string
