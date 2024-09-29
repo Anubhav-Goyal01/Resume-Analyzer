@@ -7,13 +7,13 @@ from langchain_community.document_loaders import AzureAIDocumentIntelligenceLoad
 
 
 def parseResume(file_path):
-    # loader = PyPDFLoader(file_path)
-    loader = AzureAIDocumentIntelligenceLoader(
-                api_endpoint="https://maservices-di.cognitiveservices.azure.com/",
-                api_key=f"{os.environ['DOC_INTELLIGENCE_API_KEY']}",
-                file_path=file_path,
-                api_model="prebuilt-layout"
-    )
+    loader = PyPDFLoader(file_path)
+    # loader = AzureAIDocumentIntelligenceLoader(
+    #             api_endpoint="https://maservices-di.cognitiveservices.azure.com/",
+    #             api_key=f"{os.environ['DOC_INTELLIGENCE_API_KEY']}",
+    #             file_path=file_path,
+    #             api_model="prebuilt-layout"
+    # )
     content = loader.load()
     content = content[0].page_content
     return content
@@ -27,7 +27,7 @@ def getResumeDetails(text, prompt):
     )
 
     completion = client.chat.completions.create(
-        model='sfslackbot',
+        model='gpt4o',
         messages=[
             {"role": "system", "content": prompt},
             {"role": "user", "content": f"""Here is the Resume Text:{text}"""}
@@ -57,7 +57,7 @@ def rankResumes(text, prompt, jobDescription):
     )
 
     completion = client.chat.completions.create(
-        model='sfslackbot',
+        model='gpt4o',
         messages=[
             {"role": "system", "content": prompt},
             {"role": "user", "content": f"""Here are the resumes:{text} and the job description: {jobDescription}"""}
@@ -88,7 +88,7 @@ def checkParsing(text, prompt):
     )
 
     completion = client.chat.completions.create(
-        model='sfslackbot',
+        model='gpt4o',
         messages=[
             {"role": "system", "content": prompt},
             {"role": "user", "content": f"""Here is the Parsed Resume:{text}"""}

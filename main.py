@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from Prompt.prompt import prompt, rankingPrompt, jobDescriptionPrompt, ParsingCheckPrompt
 load_dotenv()
 
-RESUME_DIR = os.path.join(os.path.dirname(__file__), 'Data', "Coffeee")
+RESUME_DIR = os.path.join(os.path.dirname(__file__), 'Data')
 resumes = os.listdir(RESUME_DIR)
 
 parsedResumes = []
